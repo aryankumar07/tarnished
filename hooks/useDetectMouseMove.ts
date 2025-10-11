@@ -1,16 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-export const useDetectMouseMove = (idleTime: number = 4000) => {
+export const useDetectMouseMove = (idleTime: number = 10000) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [idle, setIdle] = useState<boolean>(false);
 
-  const setIdleBackground = () => {
-    setIdle(true);
-  };
-
-  const resetBackground = () => {
-    setIdle(false);
-  };
+  const setIdleBackground = () => setIdle(true);
+  const resetBackground = () => setIdle(false);
 
   useEffect(() => {
     const handleActivity = () => {
@@ -23,9 +18,12 @@ export const useDetectMouseMove = (idleTime: number = 4000) => {
       timeoutRef.current = setTimeout(setIdleBackground, idleTime);
     };
 
-    const events = ["mousemove", "touchmove"];
+    // Add all the events that should reset idle state
+    const events = ["mousemove", "touchmove", "click", "scroll"];
+
     events.forEach((event) => document.addEventListener(event, handleActivity));
 
+    // Start the initial idle timer
     timeoutRef.current = setTimeout(setIdleBackground, idleTime);
 
     return () => {
@@ -37,7 +35,5 @@ export const useDetectMouseMove = (idleTime: number = 4000) => {
     };
   }, [idleTime]);
 
-  return {
-    idle,
-  };
+  return { idle };
 };
