@@ -1,10 +1,8 @@
 'use client'
 import { getbackground } from "../lib/getBackground"
 import { useDetectMouseMove } from "../hooks/useDetectMouseMove"
-import SnowParticleBackground from "./particleBackground"
+import { ParticleCanvas } from "./particleBackground"
 import React from 'react'
-import { isDevelopment } from "../lib/env"
-
 
 export const BackgroundSelector = ({
   children
@@ -14,18 +12,24 @@ export const BackgroundSelector = ({
 
   const BackGroundElement = getbackground()
   const { idle } = useDetectMouseMove()
-  const isdevelopment = isDevelopment()
 
-  return !idle || isdevelopment ? (
+  return !idle ? (
     <BackGroundElement>
       <div className="relative z-10">{children}</div>
     </BackGroundElement>
   ) : (
-    <>
-      <SnowParticleBackground />
-      {children}
-    </>
+    // parent is relative so canvas (absolute) can size itself to parent's scrollHeight
+    <div className="relative w-full">
+      <ParticleCanvas
+        count={150}
+        speedMultiplier={1.2}
+        showLines={false}
+        bgAlpha={0.15}
+        maxLinkDistance={150}
+      />
+      <div className="relative z-10">
+        {children}
+      </div>
+    </div>
   )
-
-
 }
