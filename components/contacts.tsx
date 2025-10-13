@@ -27,7 +27,7 @@ export default function Contacts() {
   ];
 
   return (
-    <div className="flex flex-col items-start gap-3 w-full">
+    <div className="flex flex-col items-start gap-3 w-full select-none">
       {Info.map((data) => (
         <LinkPremative key={data.name} href={data.href!} external className="w-full">
           <SoundComponent

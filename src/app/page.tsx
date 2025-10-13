@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import Contacts from "../../components/contacts"
 import Experiences from "../../components/experiences"
 import Projects from "../../components/projects"
+import Skills from "../../components/skills"
 
 
 gsap.registerPlugin(useGSAP);
@@ -31,6 +32,7 @@ export default function Home() {
             <Contacts />
             <Experiences />
             <Projects />
+            <Skills />
           </div>
         </div>
       </div >

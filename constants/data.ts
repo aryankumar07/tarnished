@@ -47,3 +47,30 @@ export const expInfo: DropDownProps[] = [
   },
 ]
 
+export const skillInfo: DropDownProps[] = [
+  {
+    heading: {
+      title: "Programing Language"
+    },
+    stack: [
+      'C/C++', 'Javascript', 'Typescript', 'SQL', 'Lua', "Go"
+    ]
+  },
+  {
+    heading: {
+      title: "Frontend"
+    },
+    stack: [
+      'React.JS', 'NextJs', 'TailwindCSS', 'Framer Motion', 'Zotai', 'TanStack', 'GSAP'
+    ]
+  },
+  {
+    heading: {
+      title: 'Backend'
+    },
+    stack: [
+      'ExpressJs', 'Node.Js', 'Bun', 'PostgresSQL', 'Prisma', 'Drizzle', 'MongoDb'
+    ]
+  }
+]
+

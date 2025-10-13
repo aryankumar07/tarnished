@@ -4,7 +4,7 @@ import { expInfo } from "../constants/data"
 const Experiences = () => {
 
   return (
-    <div className="flex flex-col justify-start items-start gap-1">
+    <div className="flex flex-col justify-start items-start gap-1 select-none">
       <h1 className="text-foreground/50">Experiences</h1>
       {
         expInfo.map((data) => {

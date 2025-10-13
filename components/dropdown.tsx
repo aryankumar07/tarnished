@@ -77,7 +77,7 @@ const DropDown = ({ data }: { data: DropDownProps }) => {
           </button>
         )}
       />
-      {isOpen && (
+      {isOpen && data.highlights && (
         <div className="mt-2 p-4 flex flex-col gap-2">
           {data.content && <p className="text-justify">{data.content}</p>}
           {data.highlights && data.highlights.length > 0 && (
@@ -95,6 +95,16 @@ const DropDown = ({ data }: { data: DropDownProps }) => {
           )}
         </div>
       )}
+      {isOpen && data.stack && (
+        <div className="flex flex-wrap gap-2 p-3">
+          {
+            data.stack.map((ele) => (
+              <div key={ele} className="border border-foreground/20 p-1 flex justify-center items-center bg-orange/20 rounded-sm hover:bg-orange hover:text-black" >{ele}</div>
+            ))
+          }
+        </div>
+      )
+      }
     </div>
   );
 };

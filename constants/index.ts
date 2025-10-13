@@ -5,7 +5,8 @@ export interface DropDownProps {
   };
   time?: string | null;
   content?: string
-  highlights?: string[]
+  highlights?: string[],
+  stack?: string[]
 }
 
 export interface ProjectInfoProps {
