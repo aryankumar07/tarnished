@@ -8,6 +8,7 @@ import Contacts from "../../components/contacts"
 import Experiences from "../../components/experiences"
 import Projects from "../../components/projects"
 import Skills from "../../components/skills"
+import Blogs from "../../components/blogs"
 
 
 gsap.registerPlugin(useGSAP);
@@ -33,9 +34,12 @@ export default function Home() {
             <Experiences />
             <Projects />
             <Skills />
+            <Blogs />
           </div>
         </div>
       </div >
+      <div className="absolute inset-0 m-0 p-0 flex justify-center items-center">
+      </div>
     </BackgroundSelector >
   )
 }
