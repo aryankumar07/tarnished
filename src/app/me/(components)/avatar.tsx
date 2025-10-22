@@ -1,10 +1,32 @@
 'use client'
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import gsap from "gsap"
 import AgeTimer from "./timer"
 
+const REQUEST_URL = 'https://api.giphy.com/v1/gifs/search?api_key=oSwRds94VT77KG9FB9Z6Ms6lwwHtQh9Y&q=anime&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips'
+
+
 const Avatar = () => {
   const cardRef = useRef<HTMLDivElement>(null)
+
+  const [gifUrl, setGifUrl] = useState<string | null | undefined>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(REQUEST_URL)
+        const data = await res.json()
+        const num = Math.floor(Math.random() * 25)
+        console.log(data.data[num].images.original.url)
+        setGifUrl(data.data[num].images.original.url)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchData()
+  }, [])
+
 
   useEffect(() => {
     const avatar = cardRef.current
@@ -50,15 +72,13 @@ const Avatar = () => {
           className="absolute w-full h-full rounded-full overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
-            position: "absolute",
           }}
         >
-          <img src="/dummy.gif" className="w-full h-full object-cover" />
+          <img src={gifUrl ? gifUrl : '/dummy.gif'} className="w-full h-full object-cover" />
         </div>
 
-        {/* Back */}
         <div
-          className="absolute w-full h-full border rounded-full overflow-hidden flex items-center justify-center"
+          className="absolute w-full h-full border rounded-full overflow-hidden flex items-center justify-center bg-black"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
