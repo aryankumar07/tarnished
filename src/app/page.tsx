@@ -38,8 +38,6 @@ export default function Home() {
           </div>
         </div>
       </div >
-      <div className="absolute inset-0 m-0 p-0 flex justify-center items-center">
-      </div>
     </BackgroundSelector >
   )
 }
