@@ -26,17 +26,16 @@ export default function Home() {
       LoadedFirst = true
       toast.custom((t) => (
         <div
-          className={`${t.visible ? "animate-custom-enter" : "animate-custom-leave"} max-w-md w-full bg-gray-900 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-50 border border-gray-800`}
+          className={`${t.visible ? "animate-custom-enter" : "animate-custom-leave"} max-w-md w-full shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-50 border border-light-foreground/50`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
               <div className="flex-shrink-0 pt-0.5">
-                {/* Accent icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="none"
-                  className="h-6 w-6 text-indigo-400"
+                  className="h-6 w-6 text-orange"
                   aria-hidden
                 >
                   <path d="M12 2v6" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
@@ -48,15 +47,15 @@ export default function Home() {
 
 
               <div className="ml-3 flex-1">
-                <div className="text-sm font-medium text-gray-100">Watch for some easter eggs</div>
-                <div className="mt-1 text-xs text-gray-400">Tap around — surprises are hidden in the UI.</div>
+                <div className="text-sm font-medium">Watch for some easter eggs</div>
+                <div className="mt-1 text-xs">Tap around — surprises are hidden in the UI.</div>
               </div>
             </div>
           </div>
-          <div className="flex border-l border-gray-800">
+          <div className="flex border-l border-light-foreground/50">
             <button
               onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-300 hover:text-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-orange hover:text-orange/50 focus:outline-none focus:ring-2 focus:ring-foreground"
             >
               Close
             </button>
@@ -68,24 +67,51 @@ export default function Home() {
 
   if (!isClient) return null;
 
+  /*
+    APPROACH:
+    - We wrap the content inside a relative container and add an absolutely-positioned overlay that provides:
+      1) a subtle frosted-glass (backdrop blur + translucent black) so the animated background "behind" becomes easier to read over
+      2) a radial mask (soft vignette / spotlight) to keep the center slightly more contrasted while allowing edges to blend with the page
+    - The overlay uses inline styles for maskImage because Tailwind doesn't provide utilities for that.
+    - pointer-events-none keeps the overlay from blocking interactions. The actual content sits above the overlay (z-20).
+  */
+
+  // tweak these to control the look
+  const overlayStyle = {
+    background: 'linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55))',
+    WebkitBackdropFilter: 'blur(6px) saturate(120%)', // Safari prefix
+    backdropFilter: 'blur(6px) saturate(120%)',
+    // radial-gradient mask: center is solid (keeps contrast), edges fade to transparent
+    WebkitMaskImage: 'radial-gradient(circle at 50% 20%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%)',
+    maskImage: 'radial-gradient(circle at 50% 20%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%)',
+  }
+
   return (
     <BackgroundSelector>
       <Toaster
         position="top-right"
         reverseOrder={false}
       />
+
       <div className="m-0 p-0 sm:p-8 md:p-12 flex justify-center items-center">
         <div className="w-full sm:w-[500px] min-w-[100px] flex-shrink-0 max-w-[90vw] mx-auto p-1">
-          <div className="w-full flex flex-col gap-8">
-            <Header setIsLoading={setIsLoading} />
-            <Contacts />
-            <Experiences />
-            <Projects />
-            <Skills />
-            <Blogs />
+          <div className="w-full flex flex-col gap-8 p-1 relative overflow-hidden rounded-2xl">
+            <div className="absolute inset-0 z-10 pointer-events-none"
+              style={overlayStyle}
+              aria-hidden="true"
+            />
+            <div className="relative z-20 flex flex-col gap-8 bg-black/60 p-4 rounded-xl">
+              <Header setIsLoading={setIsLoading} />
+              <Contacts />
+              <Experiences />
+              <Projects />
+              <Skills />
+              <Blogs />
+            </div>
           </div>
         </div>
       </div >
+
       {isLoading &&
         <Loader />
       }

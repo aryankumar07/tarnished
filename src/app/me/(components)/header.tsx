@@ -96,7 +96,7 @@ const Header = () => {
   return (
     <div className="max-w-3xl text-justify leading-relaxed select-none">
       <Avatar />
-      <p>
+      <p className="leading-5">
         Since you have made it this far, I will keep it short, simple, and engaging.
         Hi there! I am <span className="text-orange">Aryan</span>, born in India
         <span className="text-red-300">( fun fact: there is a 17.53% chance of being born here! ) </span>
