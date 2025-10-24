@@ -67,16 +67,6 @@ export default function Home() {
 
   if (!isClient) return null;
 
-  /*
-    APPROACH:
-    - We wrap the content inside a relative container and add an absolutely-positioned overlay that provides:
-      1) a subtle frosted-glass (backdrop blur + translucent black) so the animated background "behind" becomes easier to read over
-      2) a radial mask (soft vignette / spotlight) to keep the center slightly more contrasted while allowing edges to blend with the page
-    - The overlay uses inline styles for maskImage because Tailwind doesn't provide utilities for that.
-    - pointer-events-none keeps the overlay from blocking interactions. The actual content sits above the overlay (z-20).
-  */
-
-  // tweak these to control the look
   const overlayStyle = {
     background: 'linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55))',
     WebkitBackdropFilter: 'blur(6px) saturate(120%)', // Safari prefix
@@ -88,13 +78,14 @@ export default function Home() {
 
   return (
     <BackgroundSelector>
+
       <Toaster
         position="top-right"
         reverseOrder={false}
       />
 
       <div className="m-0 p-0 sm:p-8 md:p-12 flex justify-center items-center">
-        <div className="w-full sm:w-[500px] min-w-[100px] flex-shrink-0 max-w-[90vw] mx-auto p-1">
+        <div className="w-full sm:w-[600px] min-w-[100px] flex-shrink-0 max-w-[90vw] mx-auto p-1">
           <div className="w-full flex flex-col gap-8 p-1 relative overflow-hidden rounded-2xl">
             <div className="absolute inset-0 z-10 pointer-events-none"
               style={overlayStyle}
@@ -106,7 +97,7 @@ export default function Home() {
               <Experiences />
               <Projects />
               <Skills />
-              <Blogs />
+              <Blogs setIsLoading={setIsLoading} />
             </div>
           </div>
         </div>

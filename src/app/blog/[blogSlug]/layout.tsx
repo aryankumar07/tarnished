@@ -1,5 +1,4 @@
-import { BackgroundSelector } from "../../../components/background_selector"
-
+import { BackgroundSelector } from "../../../../components/background_selector"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
