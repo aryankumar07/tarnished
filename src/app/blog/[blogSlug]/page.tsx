@@ -1,41 +1,49 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import { compileMDX } from 'next-mdx-remote/rsc'
+import { promises as fs } from 'fs';
+import path from 'path';
+import { compileMDX } from 'next-mdx-remote/rsc';
 
+// Define the expected props type for a Next.js page
+type PageProps = {
+  params: Promise<{ blogSlug: string }>;
+};
 
-
-export async function generateMetadata({ params }: { params: { blogSlug: string } }) {
+// Generate metadata for the page
+export async function generateMetadata({ params }: PageProps) {
+  const { blogSlug } = await params; // Unwrap the Promise
   try {
-    const filePath = path.join(process.cwd(), 'src/app/blog/(blogs)', `${params.blogSlug}.mdx`)
-    const raw = await fs.readFile(filePath, 'utf-8')
+    const filePath = path.join(process.cwd(), 'src/app/blog/(blogs)', `${blogSlug}.mdx`);
+    const raw = await fs.readFile(filePath, 'utf-8');
     const { frontmatter } = await compileMDX<{ title: string }>({
       source: raw,
       options: {
-        parseFrontmatter: true
-      }
-    })
+        parseFrontmatter: true,
+      },
+    });
     return {
-      title: `${frontmatter.title}`
-    }
+      title: `${frontmatter.title}`,
+    };
   } catch (e) {
-    console.error(e)
+    console.error(e);
+    return { title: 'Blog Post' }; // Fallback title in case of error
   }
-};
+}
 
-const Page = async ({ params }: { params: { blogSlug: string } }) => {
+// Page component
+const Page = async ({ params }: PageProps) => {
+  const { blogSlug } = await params; // Unwrap the Promise
   let data;
   try {
-    const filePath = path.join(process.cwd(), 'src/app/blog/(blogs)', `${params.blogSlug}.mdx`)
-    const raw = await fs.readFile(filePath, 'utf-8')
+    const filePath = path.join(process.cwd(), 'src/app/blog/(blogs)', `${blogSlug}.mdx`);
+    const raw = await fs.readFile(filePath, 'utf-8');
     data = await compileMDX<{ title: string }>({
       source: raw,
       options: {
-        parseFrontmatter: true
-      }
-    })
+        parseFrontmatter: true,
+      },
+    });
   } catch (e) {
-    console.error(e)
-    return
+    console.error(e);
+    return <div>Error loading blog post</div>; // Render error state
   }
 
   const overlayStyle = {
@@ -44,8 +52,7 @@ const Page = async ({ params }: { params: { blogSlug: string } }) => {
     backdropFilter: 'blur(6px) saturate(120%)',
     WebkitMaskImage: 'radial-gradient(circle at 50% 20%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%)',
     maskImage: 'radial-gradient(circle at 50% 20%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%)',
-  }
-
+  };
 
   return (
     <div className="flex p-8 w-full">
@@ -56,8 +63,7 @@ const Page = async ({ params }: { params: { blogSlug: string } }) => {
         </div>
       </div>
     </div>
+  );
+};
 
-  )
-}
-
-export default Page
+export default Page;
