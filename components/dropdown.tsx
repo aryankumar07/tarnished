@@ -79,7 +79,7 @@ const DropDown = ({ data }: { data: DropDownProps }) => {
       />
       {isOpen && data.highlights && (
         <div className="mt-2 p-4 flex flex-col gap-2">
-          {data.content && <p className="text-justify">{data.content}</p>}
+          {data.content && <p className="">{data.content}</p>}
           {data.highlights && data.highlights.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {data.highlights && data.highlights.map((highlight, index) => (

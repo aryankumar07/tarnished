@@ -5,7 +5,7 @@ export const ProjectInfo: ProjectInfoProps[] = [
   {
     title: 'Revord',
     Content: 'A cross-platform desktop recording suite (Record, Capture, Annotate) featuring auto-zoom and auto-removing annotations',
-    LiveLink: 'https://rev-kun.vercel.app/',
+    LiveLink: 'https://www.revord.org',
     GithubLink: 'https://github.com/NetMods/Rev'
   },
   {

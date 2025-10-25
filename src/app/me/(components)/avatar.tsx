@@ -58,7 +58,7 @@ const Avatar = () => {
   }, [])
 
   return (
-    <div className="max-w-3xl text-justify leading-relaxed select-none">
+    <div className="max-w-3xl leading-relaxed select-none">
       <div
         className="float-right ml-6 mb-3 h-32 w-32 rounded-full"
         style={{

@@ -1,13 +1,12 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import { Tester, RegexSection, RegexExample, RegexCheatSheet, CodeBlock } from '../(component)/regex-comp';
 
-// Define the expected props type for a Next.js page
 type PageProps = {
   params: Promise<{ blogSlug: string }>;
 };
 
-// Generate metadata for the page
 export async function generateMetadata({ params }: PageProps) {
   const { blogSlug } = await params; // Unwrap the Promise
   try {
@@ -18,6 +17,13 @@ export async function generateMetadata({ params }: PageProps) {
       options: {
         parseFrontmatter: true,
       },
+      components: {
+        Tester,
+        RegexSection,
+        RegexExample,
+        RegexCheatSheet,
+        CodeBlock
+      }
     });
     return {
       title: `${frontmatter.title}`,
@@ -40,6 +46,13 @@ const Page = async ({ params }: PageProps) => {
       options: {
         parseFrontmatter: true,
       },
+      components: {
+        Tester,
+        RegexSection,
+        RegexExample,
+        RegexCheatSheet,
+        CodeBlock
+      }
     });
   } catch (e) {
     console.error(e);

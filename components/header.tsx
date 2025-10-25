@@ -55,7 +55,7 @@ const Header = ({
 
       <p className="text-light-foreground/50 text-md">Software Engineer,Indie Developer</p>
 
-      <div className="text-justify" >A passionate software engineer, Writing code like digital poet, tirelessly crafting solutions that spark innovation and bring ideas to life with relentless curiosity and precision. Always happy for a
+      <div className="" >A passionate software engineer, Writing code like digital poet, tirelessly crafting solutions that spark innovation and bring ideas to life with relentless curiosity and precision. Always happy for a
         <LinkPremative href='https://twitter.com/messages/compose?recipient_id=1760429731135021056' external >
           <SoundComponent
             href={'/sounds/hover.mp3'}

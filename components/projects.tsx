@@ -13,7 +13,7 @@ const Projects = () => {
         {
           ProjectInfo.map((info) => {
             return (
-              <div key={info.title} className="text-justify flex flex-col items-start justify-start gap-1">
+              <div key={info.title} className="flex flex-col items-start justify-start gap-1">
                 <p>
                   <SoundComponent
                     href="/sounds/hover.mp3"

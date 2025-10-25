@@ -1,336 +1,407 @@
 ---
-title: "regex"
-imgUrl : '/dummy.gif'
+title: "Regex Guide"
+imgUrl: '/dummy.gif'
 ---
 
 # The Complete Guide to Regular Expressions (Regex)
 
-Regular expressions (regex) are powerful patterns used to match and manipulate text. Think of them as a search tool on steroids. Let's learn everything about regex in a simple way.
+<Tester />
+
+Regular expressions (regex) are powerful tools for matching and manipulating text. Think of them as a supercharged search tool. This guide breaks down regex concepts into clear, digestible sections with examples to help you master pattern matching.
+
+---
 
 ## What is Regex?
 
-Regex is a sequence of characters that defines a search pattern. It's like giving instructions to find specific text in a document.
+<RegexSection title="Understanding Regex">
+  Regex is a sequence of characters that defines a search pattern. It’s like giving precise instructions to find or manipulate specific text in a document.
 
-**Example:** Finding all email addresses in a text file, validating phone numbers, or replacing specific words.
+  **Use Cases:**
+  - Finding email addresses in a text file
+  - Validating phone numbers
+  - Replacing specific words
+</RegexSection>
+
+---
 
 ## Basic Syntax
 
 ### Literal Characters
 
-The simplest regex is just plain text:
+<RegexSection title="Literal Characters">
+  The simplest regex matches text exactly as written.
 
-```regex
-hello
-```
-
-This matches the word "hello" exactly.
+  <RegexExample
+    pattern="hello"
+    description="Matches the word 'hello' exactly."
+  />
+</RegexSection>
 
 ### Special Characters (Metacharacters)
 
-These characters have special meanings:
+<RegexSection title="Metacharacters">
+  These characters have special meanings in regex:
 
-- `.` - Matches any single character except newline
-- `^` - Matches start of string
-- `$` - Matches end of string
-- `*` - Matches 0 or more times
-- `+` - Matches 1 or more times
-- `?` - Matches 0 or 1 time
-- `|` - OR operator
-- `\` - Escape character
+  <RegexCheatSheet
+    items={[
+      { pattern: '.', description: 'Matches any single character except newline' },
+      { pattern: '^', description: 'Matches start of string' },
+      { pattern: '$', description: 'Matches end of string' },
+      { pattern: '*', description: 'Matches 0 or more times' },
+      { pattern: '+', description: 'Matches 1 or more times' },
+      { pattern: '?', description: 'Matches 0 or 1 time' },
+      { pattern: '|', description: 'OR operator' },
+      { pattern: '\\', description: 'Escape character' },
+    ]}
+  />
+</RegexSection>
+
+---
 
 ## Character Classes
 
-Character classes let you match specific sets of characters.
+<RegexSection title="Character Classes">
+  Character classes allow you to match specific sets of characters.
 
-### Predefined Classes
+  ### Predefined Classes
+  <RegexCheatSheet
+    items={[
+      { pattern: '\\d', description: 'Matches any digit (0-9)' },
+      { pattern: '\\D', description: 'Matches any non-digit' },
+      { pattern: '\\w', description: 'Matches any word character (letters, digits, underscore)' },
+      { pattern: '\\W', description: 'Matches any non-word character' },
+      { pattern: '\\s', description: 'Matches any whitespace (space, tab, newline)' },
+      { pattern: '\\S', description: 'Matches any non-whitespace' },
+    ]}
+  />
 
-```regex
-\d  - Matches any digit (0-9)
-\D  - Matches any non-digit
-\w  - Matches any word character (letters, digits, underscore)
-\W  - Matches any non-word character
-\s  - Matches any whitespace (space, tab, newline)
-\S  - Matches any non-whitespace
-```
+  <RegexExample
+    pattern="\\d\\d\\d"
+    description="Matches any three digits, e.g., '123' or '456'."
+  />
 
-**Example:**
-```regex
-\d\d\d
-```
-Matches any three digits like "123" or "456"
+  ### Custom Classes
+  Use square brackets `[]` to define your own character sets:
 
-### Custom Classes
+  <RegexCheatSheet
+    items={[
+      { pattern: '[abc]', description: 'Matches a, b, or c' },
+      { pattern: '[a-z]', description: 'Matches any lowercase letter' },
+      { pattern: '[A-Z]', description: 'Matches any uppercase letter' },
+      { pattern: '[0-9]', description: 'Matches any digit' },
+      { pattern: '[^abc]', description: 'Matches anything except a, b, or c' },
+    ]}
+  />
 
-Use square brackets `[]` to define your own character set:
+  <RegexExample
+    pattern="[aeiou]"
+    description="Matches any vowel."
+  />
+</RegexSection>
 
-```regex
-[abc]      - Matches a, b, or c
-[a-z]      - Matches any lowercase letter
-[A-Z]      - Matches any uppercase letter
-[0-9]      - Matches any digit
-[^abc]     - Matches anything EXCEPT a, b, or c
-```
-
-**Example:**
-```regex
-[aeiou]
-```
-Matches any vowel
+---
 
 ## Quantifiers
 
-Quantifiers specify how many times something should match.
+<RegexSection title="Quantifiers">
+  Quantifiers specify how many times a pattern should match.
 
-```regex
-*       - 0 or more times
-+       - 1 or more times
-?       - 0 or 1 time (optional)
-{n}     - Exactly n times
-{n,}    - n or more times
-{n,m}   - Between n and m times
-```
+  <RegexCheatSheet
+    items={[
+      { pattern: '*', description: '0 or more times' },
+      { pattern: '+', description: '1 or more times' },
+      { pattern: '?', description: '0 or 1 time (optional)' },
+      { pattern: '{n}', description: 'Exactly n times' },
+      { pattern: '{n,}', description: 'n or more times' },
+      { pattern: '{n,m}', description: 'Between n and m times' },
+    ]}
+  />
 
-**Examples:**
+  <RegexExample
+    pattern="a*"
+    description="Matches '', 'a', 'aa', 'aaa', etc."
+  />
+  <RegexExample
+    pattern="a+"
+    description="Matches 'a', 'aa', 'aaa' (but not empty string)."
+  />
+  <RegexExample
+    pattern="\\d{3}"
+    description="Matches exactly 3 digits, e.g., '123'."
+  />
+</RegexSection>
 
-```regex
-a*      - Matches "", "a", "aa", "aaa", etc.
-a+      - Matches "a", "aa", "aaa" (but not empty string)
-a?      - Matches "" or "a"
-a{3}    - Matches "aaa" exactly
-a{2,4}  - Matches "aa", "aaa", or "aaaa"
-\d{3}   - Matches exactly 3 digits
-```
+---
 
 ## Anchors
 
-Anchors don't match characters but positions.
+<RegexSection title="Anchors">
+  Anchors match positions, not characters.
 
-```regex
-^       - Start of string/line
-$       - End of string/line
-\b      - Word boundary
-\B      - Not a word boundary
-```
+  <RegexCheatSheet
+    items={[
+      { pattern: '^', description: 'Start of string/line' },
+      { pattern: '$', description: 'End of string/line' },
+      { pattern: '\\b', description: 'Word boundary' },
+      { pattern: '\\B', description: 'Not a word boundary' },
+    ]}
+  />
 
-**Examples:**
+  <RegexExample
+    pattern="^Hello"
+    description="Matches 'Hello' only at the start of a string."
+  />
+  <RegexExample
+    pattern="\\bcat\\b"
+    description="Matches 'cat' as a whole word, not 'category'."
+  />
+</RegexSection>
 
-```regex
-^Hello  - Matches "Hello" only at the start
-World$  - Matches "World" only at the end
-\bcat\b - Matches "cat" as a whole word, not "category"
-```
+---
 
 ## Groups and Capturing
 
-### Parentheses ( )
+<RegexSection title="Groups and Capturing">
+  ### Capturing Groups
+  Parentheses `()` group characters and capture matched text for later use.
 
-Groups let you treat multiple characters as a unit:
+  <RegexExample
+    pattern="(\\d{3})-(\\d{4})"
+    description="Captures area code and number separately from '555-1234'."
+  />
 
-```regex
-(abc)+  - Matches "abc", "abcabc", "abcabcabc"
-```
+  ### Non-Capturing Groups
+  Use `(?:...)` for grouping without capturing.
 
-Capturing groups also save the matched text for later use:
+  <RegexExample
+    pattern="(?:abc)+"
+    description="Matches 'abc', 'abcabc', etc., without capturing."
+  />
+</RegexSection>
 
-```regex
-(\d{3})-(\d{4})
-```
-Captures area code and number separately from "555-1234"
-
-### Non-Capturing Groups
-
-Use `(?:...)` when you need grouping but don't need to capture:
-
-```regex
-(?:abc)+
-```
+---
 
 ## Common Patterns
 
-### Email Address
+<RegexSection title="Common Patterns">
+  <RegexExample
+    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
+    description="Matches email addresses, e.g., 'user@example.com'."
+  />
+  <RegexExample
+    pattern="\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}"
+    description="Matches US phone numbers, e.g., '(123) 456-7890' or '123-456-7890'."
+  />
+  <RegexExample
+    pattern="https?://[^\\s]+"
+    description="Matches URLs, e.g., 'https://example.com'."
+  />
+  <RegexExample
+    pattern="^[a-zA-Z0-9_]{3,16}$"
+    description="Matches usernames (alphanumeric, 3-16 characters)."
+  />
+  <RegexExample
+    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+    description="Matches strong passwords (8+ chars, uppercase, lowercase, digit, special char)."
+  />
+</RegexSection>
 
-```regex
-[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
-```
-
-### Phone Number (US)
-
-```regex
-\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}
-```
-Matches: (123) 456-7890, 123-456-7890, 123.456.7890
-
-### URL
-
-```regex
-https?://[^\s]+
-```
-
-### Username (alphanumeric, 3-16 characters)
-
-```regex
-^[a-zA-Z0-9_]{3,16}$
-```
-
-### Strong Password
-
-```regex
-^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$
-```
-Requires: 8+ chars, uppercase, lowercase, digit, special char
+---
 
 ## Lookahead and Lookbehind
 
-### Lookahead
+<RegexSection title="Lookahead and Lookbehind">
+  ### Lookahead
+  Matches if followed by something (without including it).
 
-Matches if followed by something (without including it):
+  <RegexExample
+    pattern="\\d+(?= dollars)"
+    description="Matches '50' in '50 dollars' but not the word 'dollars'."
+  />
 
-```regex
-\d+(?= dollars)  - Matches "50" in "50 dollars" but not the word "dollars"
-```
+  ### Negative Lookahead
+  Matches if NOT followed by something.
 
-### Negative Lookahead
+  <RegexExample
+    pattern="\\d+(?! dollars)"
+    description="Matches numbers not followed by 'dollars'."
+  />
 
-Matches if NOT followed by something:
+  ### Lookbehind
+  Matches if preceded by something.
 
-```regex
-\d+(?! dollars)  - Matches numbers not followed by "dollars"
-```
+  <RegexExample
+    pattern="(?<=\$)\\d+"
+    description="Matches '50' in '$50' but not the dollar sign."
+  />
+</RegexSection>
 
-### Lookbehind
-
-Matches if preceded by something:
-
-```regex
-(?<=\$)\d+  - Matches "50" in "$50" but not the dollar sign
-```
+---
 
 ## Flags/Modifiers
 
-Flags change how the regex behaves:
+<RegexSection title="Flags/Modifiers">
+  Flags modify regex behavior:
 
-- `g` - Global: find all matches, not just the first
-- `i` - Case insensitive
-- `m` - Multiline: ^ and $ match line breaks
-- `s` - Dot matches newline
+  <RegexCheatSheet
+    items={[
+      { pattern: 'g', description: 'Global: find all matches' },
+      { pattern: 'i', description: 'Case insensitive' },
+      { pattern: 'm', description: 'Multiline: ^ and $ match line breaks' },
+      { pattern: 's', description: 'Dot matches newline' },
+    ]}
+  />
 
-**Example in JavaScript:**
-```javascript
-/hello/gi  // Finds all "hello" case-insensitive
-```
+  <CodeBlock
+    language="javascript"
+    code="/hello/gi  // Finds all 'hello' case-insensitive"
+  />
+</RegexSection>
+
+---
 
 ## Practical Examples
 
-### Validate Email
+<RegexSection title="Practical Examples">
+  <CodeBlock
+    language="javascript"
+    code={`
+      // Validate Email
+      const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      emailRegex.test("user@example.com"); // true
+    `}
+  />
+  <CodeBlock
+    language="javascript"
+    code={`
+      // Extract Numbers from Text
+      const text = "I have 3 apples and 5 oranges";
+      const numbers = text.match(/\\d+/g); // ["3", "5"]
+    `}
+  />
+  <CodeBlock
+    language="javascript"
+    code={`
+      // Replace All Spaces with Dashes
+      const text = "hello world example";
+      const result = text.replace(/\\s+/g, "-"); // "hello-world-example"
+    `}
+  />
+  <CodeBlock
+    language="javascript"
+    code={`
+      // Find All Hashtags
+      const text = "Love #coding and #regex #tutorial";
+      const hashtags = text.match(/#\\w+/g); // ["#coding", "#regex", "#tutorial"]
+    `}
+  />
+  <CodeBlock
+    language="javascript"
+    code={`
+      // Validate Date (YYYY-MM-DD)
+      const dateRegex = /^\\d{4}-\\d{2}-\\d{2}$/;
+      dateRegex.test("2025-10-24"); // true
+    `}
+  />
+</RegexSection>
 
-```javascript
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-emailRegex.test("user@example.com"); // true
-```
-
-### Extract Numbers from Text
-
-```javascript
-const text = "I have 3 apples and 5 oranges";
-const numbers = text.match(/\d+/g); // ["3", "5"]
-```
-
-### Replace All Spaces with Dashes
-
-```javascript
-const text = "hello world example";
-const result = text.replace(/\s+/g, "-"); // "hello-world-example"
-```
-
-### Find All Hashtags
-
-```javascript
-const text = "Love #coding and #regex #tutorial";
-const hashtags = text.match(/#\w+/g); // ["#coding", "#regex", "#tutorial"]
-```
-
-### Validate Date (YYYY-MM-DD)
-
-```javascript
-const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-dateRegex.test("2025-10-24"); // true
-```
+---
 
 ## Greedy vs Lazy Matching
 
-By default, quantifiers are greedy (match as much as possible):
+<RegexSection title="Greedy vs Lazy Matching">
+  By default, quantifiers are greedy (match as much as possible).
 
-```regex
-<.+>  - In "<div>Hello</div>", matches the entire string
-```
+  <RegexExample
+    pattern="<.+>"
+    description="Matches entire '<div>Hello</div>' string."
+  />
 
-Add `?` after quantifier for lazy matching (match as little as possible):
+  Add `?` for lazy matching (match as little as possible).
 
-```regex
-<.+?>  - Matches "<div>" and "</div>" separately
-```
+  <RegexExample
+    pattern="<.+?>"
+    description="Matches '<div>' and '</div>' separately."
+  />
+</RegexSection>
+
+---
 
 ## Escaping Special Characters
 
-To match special characters literally, escape them with `\`:
+<RegexSection title="Escaping Special Characters">
+  To match special characters literally, escape them with `\`.
 
-```regex
-\$\d+\.\d{2}  - Matches "$19.99"
-\(hello\)     - Matches "(hello)"
-```
+  <RegexExample
+    pattern="\\$\\d+\\.\\d{2}"
+    description="Matches '$19.99'."
+  />
+  <RegexExample
+    pattern="\\(hello\\)"
+    description="Matches '(hello)'."
+  />
+</RegexSection>
+
+---
 
 ## Common Mistakes to Avoid
 
-1. **Forgetting to escape special characters**
-   - Wrong: `.com` (matches any character + "com")
-   - Right: `\.com`
+<RegexSection title="Common Mistakes">
+  <RegexCheatSheet
+    items={[
+      { pattern: 'Forgetting to escape special characters', description: 'Use \\.com instead of .com' },
+      { pattern: 'Not anchoring', description: 'Use ^\\d{4}$ instead of \\d{4} for exact matches' },
+      { pattern: 'Overusing greedy quantifiers', description: 'Use *? or +? for lazy matching' },
+      { pattern: 'Complex patterns', description: 'Break into smaller parts and comment' },
+    ]}
+  />
+</RegexSection>
 
-2. **Not anchoring when needed**
-   - `\d{4}` matches "2025" in "20259999"
-   - `^\d{4}$` matches only "2025"
-
-3. **Overusing greedy quantifiers**
-   - Use lazy `*?` or `+?` when needed
-
-4. **Making regex too complex**
-   - Break complex patterns into smaller parts
-   - Comment your regex for clarity
+---
 
 ## Testing and Debugging
 
-Use online tools to test your regex:
-- regex101.com
-- regexr.com
-- regextester.com
+<RegexSection title="Testing and Debugging">
+  Use online tools to test and debug your regex:
+  - [regex101.com](https://regex101.com)
+  - [regexr.com](https://regexr.com)
+  - [regextester.com](https://www.regextester.com)
 
-These tools show matches, explain patterns, and help debug.
+  These tools highlight matches, explain patterns, and help identify issues.
+</RegexSection>
+
+---
 
 ## Quick Reference Cheat Sheet
 
-```text
-.      Any character except newline
-^      Start of string
-$      End of string
-*      0 or more
-+      1 or more
-?      0 or 1
-{n}    Exactly n times
-{n,m}  Between n and m times
-[]     Character class
-[^]    Negated character class
-()     Capturing group
-|      OR
-\      Escape character
-\d     Digit
-\w     Word character
-\s     Whitespace
-\b     Word boundary
-```
+<RegexCheatSheet
+  items={[
+    { pattern: '.', description: 'Any character except newline' },
+    { pattern: '^', description: 'Start of string' },
+    { pattern: '$', description: 'End of string' },
+    { pattern: '*', description: '0 or more' },
+    { pattern: '+', description: '1 or more' },
+    { pattern: '?', description: '0 or 1' },
+    { pattern: '{n}', description: 'Exactly n times' },
+    { pattern: '{n,m}', description: 'Between n and m times' },
+    { pattern: '[]', description: 'Character class' },
+    { pattern: '[^]', description: 'Negated character class' },
+    { pattern: '()', description: 'Capturing group' },
+    { pattern: '|', description: 'OR' },
+    { pattern: '\\', description: 'Escape character' },
+    { pattern: '\\d', description: 'Digit' },
+    { pattern: '\\w', description: 'Word character' },
+    { pattern: '\\s', description: 'Whitespace' },
+    { pattern: '\\b', description: 'Word boundary' },
+  ]}
+/>
+
+---
 
 ## Conclusion
 
-Regular expressions are incredibly powerful for text processing. Start with simple patterns and gradually build complexity. Practice with real examples, and use testing tools to verify your patterns.
+<RegexSection title="Conclusion">
+  Regular expressions are a powerful tool for text processing. Start with simple patterns, practice with real examples, and use testing tools to refine your skills. Keep this guide as a reference, and soon you'll be crafting complex patterns with ease.
 
-Remember: regex can seem cryptic at first, but with practice, you'll be able to write and understand complex patterns easily. Keep this guide handy as a reference!
-
-Happy pattern matching! 🎯
+  **Happy pattern matching! 🎯**
+</RegexSection>
