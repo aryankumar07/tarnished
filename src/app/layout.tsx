@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'Tarnished',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://tarnished-git-loader-aryans-projects-0efed95e.vercel.app/og-image.png',
         width: 1200,
         height: 630,
         alt: 'OG',
