@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tarnished',
     description: 'Portfolio for Aryan',
-    url: 'https://tarnished.lol',
+    url: 'https://tarnished-git-loader-aryans-projects-0efed95e.vercel.app',
     siteName: 'Tarnished',
     images: [
       {
