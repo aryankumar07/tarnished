@@ -2,11 +2,17 @@ import { useGSAP } from "@gsap/react";
 import gsap from 'gsap'
 import LinkPremative from "./link-premative";
 import SoundComponent from "./soundComponent";
-import { useNativeSoundEffect } from "../hooks/useNativeSoundEffect";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 
-const Header = () => {
+const Header = ({
+  setIsLoading
+}: {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
+
+  const router = useRouter()
 
   useGSAP(() => {
     gsap.to('#blink', {
@@ -17,7 +23,15 @@ const Header = () => {
       ease: 'power1.inOut'
     })
   }, [])
-  const { play, error } = useNativeSoundEffect('/sounds/copied.mp3')
+
+
+  const handleNavigation = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+      router.push('/me')
+    }, 800)
+  }
 
 
   const [copied, setCopied] = useState<boolean>(false)
@@ -41,7 +55,7 @@ const Header = () => {
 
       <p className="text-light-foreground/50 text-md">Software Engineer,Indie Developer</p>
 
-      <div className="text-justify" >A passionate software engineer, Writing code like digital poet, tirelessly crafting solutions that spark innovation and bring ideas to life with relentless curiosity and precision. Always happy for a
+      <div className="" >A passionate software engineer, Writing code like digital poet, tirelessly crafting solutions that spark innovation and bring ideas to life with relentless curiosity and precision. Always happy for a
         <LinkPremative href='https://twitter.com/messages/compose?recipient_id=1760429731135021056' external >
           <SoundComponent
             href={'/sounds/hover.mp3'}
@@ -53,9 +67,9 @@ const Header = () => {
       </div>
 
       <div className="flex w-auto gap-5">
-        <div className="flex justify-center items-center gap-1 border-[0.3px] p-1 border-light-foreground/50 text-foreground/30 text-sm hover:bg-orange hover:border-light-foreground hover:text-black">
+        <button onClick={handleNavigation} className="flex justify-center items-center gap-1 border-[0.3px] p-1 border-light-foreground/50 text-foreground/30 text-sm hover:bg-orange hover:border-light-foreground hover:text-black hover:cursor-pointer">
           Know More About Me<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg></span>
-        </div>
+        </button>
         <SoundComponent
           href="/sounds/copied.mp3"
           render={(handlePlay) => (

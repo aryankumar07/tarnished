@@ -13,6 +13,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  openGraph: {
+    title: 'Tarnished',
+    description: 'Portfolio for Aryan',
+    url: 'https://tarnished-git-loader-aryans-projects-0efed95e.vercel.app',
+    siteName: 'Tarnished',
+    images: [
+      {
+        url: 'https://tarnished-git-loader-aryans-projects-0efed95e.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'OG',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
   title: "Tarnished",
   description: "My Portfolio",
 };

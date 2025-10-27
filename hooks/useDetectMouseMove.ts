@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export const useDetectMouseMove = (idleTime: number = 7000) => {
+export const useDetectMouseMove = (idleTime: number = 10000) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [idle, setIdle] = useState<boolean>(false);
 
