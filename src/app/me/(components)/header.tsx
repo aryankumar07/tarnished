@@ -94,7 +94,7 @@ const Header = () => {
   }, [])
 
   return (
-    <div className="max-w-3xl leading-relaxed select-none">
+    <div className="w-full sm:max-w-3xl leading-relaxed select-none">
       <Avatar />
       <p className="leading-5">
         Since you have made it this far, I will keep it short, simple, and engaging.

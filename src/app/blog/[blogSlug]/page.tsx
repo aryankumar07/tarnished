@@ -68,10 +68,10 @@ const Page = async ({ params }: PageProps) => {
   };
 
   return (
-    <div className="flex p-8 w-full">
+    <div className="flex p-1 w-full">
       <div className="relative w-full max-w-[900px] mx-auto rounded-2xl overflow-hidden">
         <div className="absolute inset-0 z-10 pointer-events-none" style={overlayStyle} aria-hidden="true" />
-        <div className="relative z-20 p-8 bg-black/60">
+        <div className="relative z-20 bg-black/60">
           {data.content}
         </div>
       </div>

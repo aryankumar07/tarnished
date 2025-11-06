@@ -11,22 +11,19 @@ import Skills from "../../components/skills"
 import Blogs from "../../components/blogs"
 import Loader from "../../components/loader"
 import toast, { Toaster } from "react-hot-toast"
-
-// import ScrollTrigger from "gsap/ScrollTrigger"; 
+// import ScrollTrigger from "gsap/ScrollTrigger";
 gsap.registerPlugin(useGSAP);
 let LoadedFirst = false;
-
 export default function Home() {
   const [isClient, setIsClient] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-
   useEffect(() => {
     setIsClient(true)
     if (!LoadedFirst) {
       LoadedFirst = true
       toast.custom((t) => (
         <div
-          className={`${t.visible ? "animate-custom-enter" : "animate-custom-leave"} max-w-md w-full shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-50 border border-light-foreground/50`}
+          className={`${t.visible ? "animate-custom-enter" : "animate-custom-leave"} max-w-md w-full shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-50 border border-light-foreground/50 bg-black/90`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -44,8 +41,6 @@ export default function Home() {
                   <path d="M18.07 19.07l-4.24-4.24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-
-
               <div className="ml-3 flex-1">
                 <div className="text-sm font-medium">Watch for some easter eggs</div>
                 <div className="mt-1 text-xs">Tap around — surprises are hidden in the UI.</div>
@@ -62,11 +57,8 @@ export default function Home() {
           </div>
         </div>))
     }
-
   }, [])
-
   if (!isClient) return null;
-
   const overlayStyle = {
     background: 'linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55))',
     WebkitBackdropFilter: 'blur(6px) saturate(120%)', // Safari prefix
@@ -75,15 +67,12 @@ export default function Home() {
     WebkitMaskImage: 'radial-gradient(circle at 50% 20%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%)',
     maskImage: 'radial-gradient(circle at 50% 20%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%)',
   }
-
   return (
     <BackgroundSelector>
-
       <Toaster
         position="top-right"
         reverseOrder={false}
       />
-
       <div className="m-0 p-0 sm:p-8 md:p-12 flex justify-center items-center">
         <div className="w-full sm:w-[600px] min-w-[100px] flex-shrink-0 max-w-[90vw] mx-auto p-1">
           <div className="w-full flex flex-col gap-8 p-1 relative overflow-hidden rounded-2xl">

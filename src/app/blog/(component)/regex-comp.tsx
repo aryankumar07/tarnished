@@ -1,6 +1,6 @@
 export const Tester = () => {
   return (
-    <div className="font-extrabold text-9xl text-blue-600 text-center my-8">
+    <div className="font-extrabold text-4xl md:text-9xl text-blue-600 text-center my-8">
       Regex Guide
     </div>
   );

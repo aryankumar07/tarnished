@@ -30,7 +30,7 @@ const Header = ({
     setTimeout(() => {
       setIsLoading(false)
       router.push('/me')
-    }, 800)
+    }, 700)
   }
 
 

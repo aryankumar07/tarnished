@@ -37,7 +37,7 @@ const Blogs = ({ setIsLoading }: { setIsLoading: React.Dispatch<React.SetStateAc
     setTimeout(() => {
       setIsLoading(false)
       router.push(`/blog/${blogSlug}`)
-    }, 800)
+    }, 700)
   }
 
   return (
@@ -51,8 +51,8 @@ const Blogs = ({ setIsLoading }: { setIsLoading: React.Dispatch<React.SetStateAc
       <div className='w-full flex p-1 gap-1 overflow-x-scroll hover:cursor-pointer'>
         {blogData && blogData.map((data, index) => {
           return (
-            <div onClick={() => handleClick(data.slug)} key={index} className='w-40 h-40 shrink-0 bg-red-400 overflow-hidden'>
-              <img src={data.imgUrl} className='w-full h-full' alt={data.title} />
+            <div onClick={() => handleClick(data.slug)} key={index} className='w-40 h-40 shrink-0 overflow-hidden'>
+              <img src={data.imgUrl} className='w-full h-full rounded-md overflow-hidden' alt={data.title} />
             </div>
           )
         })
