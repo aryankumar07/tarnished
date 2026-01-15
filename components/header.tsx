@@ -2,6 +2,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from 'gsap'
 import LinkPremative from "./link-premative";
 import SoundComponent from "./soundComponent";
+import AudioVisualizer from "./AudioVisualizer";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -48,9 +49,18 @@ const Header = ({
   return (
     <div className="w-full flex flex-col gap-3 select-none">
 
-      <div className="flex justify-start items-center gap-2">
-        <div id="blink" className="rounded-full h-2 w-2 bg-orange"></div>
-        <h1 className="text-3xl">Aryan</h1>
+      <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-center items-center gap-1">
+          <div id="blink" className="rounded-full h-2 w-2 bg-orange"></div>
+          <h1 className="text-3xl">Aryan</h1>
+        </div>
+        <AudioVisualizer
+          playlist={[
+            '/sounds/piano.mp3',
+            '/sounds/piano2.mp3',
+            '/sounds/piano3.mp3',
+          ]}
+        />
       </div>
 
       <p className="text-light-foreground/50 text-md">Software Engineer,Indie Developer</p>
