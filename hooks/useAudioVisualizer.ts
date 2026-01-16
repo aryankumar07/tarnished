@@ -19,9 +19,9 @@ export function useAudioVisualizer(
   barCount: number = 4
 ): UseAudioVisualizerReturn {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [frequencyData, setFrequencyData] = useState<number[]>(() => Array(barCount).fill(0));
+  const [frequencyData, setFrequencyData] = useState<number[]>(() => Array(barCount).fill(0.3));
   const [currentTrack, setCurrentTrack] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -45,86 +45,82 @@ export function useAudioVisualizer(
 
   // Frequency bin ranges for each bar (bass to treble)
   const frequencyBands = [
-    { start: 2, end: 4 },    // Bass
-    { start: 5, end: 8 },    // Low-mid
-    { start: 9, end: 16 },   // Mid
-    { start: 17, end: 32 },  // High/Treble
+    { start: 2, end: 4 },
+    { start: 5, end: 8 },
+    { start: 9, end: 16 },
+    { start: 17, end: 32 },
   ];
 
-  // Initialize audio element once
-  useEffect(() => {
-    if (!playlist.length) {
-      setError('No tracks in playlist');
-      setIsLoading(false);
+  // Animation loop for frequency data
+  const updateFrequencyData = useCallback(() => {
+    if (!analyserRef.current || !dataArrayRef.current || !isPlayingRef.current) {
       return;
     }
 
-    const audio = new Audio(playlist[0]);
+    analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+
+    const newData = frequencyBands.slice(0, barCount).map(band => {
+      let sum = 0;
+      let count = 0;
+      for (let i = band.start; i <= band.end && i < dataArrayRef.current!.length; i++) {
+        sum += dataArrayRef.current![i];
+        count++;
+      }
+      return count > 0 ? sum / count / 255 : 0;
+    });
+
+    setFrequencyData(newData);
+    animationRef.current = requestAnimationFrame(updateFrequencyData);
+  }, [barCount]);
+
+  // Initialize or get audio element
+  const getOrCreateAudio = useCallback(() => {
+    if (audioRef.current) return audioRef.current;
+
+    const audio = new Audio();
     audio.preload = 'auto';
     audio.volume = 0.3;
-    audio.crossOrigin = 'anonymous';
-
-    const handleCanPlay = () => setIsLoading(false);
-    const handleError = (e: Event) => {
-      const audioError = (e.target as HTMLAudioElement).error;
-      setError(`Failed to load audio: ${audioError?.message || 'Unknown error'}`);
-      setIsLoading(false);
-    };
+    // Don't set crossOrigin for same-origin requests - iOS Safari can be picky
+    audio.src = playlist[currentTrackRef.current];
 
     // Auto-play next track when current ends
-    const handleEnded = () => {
+    audio.addEventListener('ended', () => {
       const nextIndex = (currentTrackRef.current + 1) % playlist.length;
       setCurrentTrack(nextIndex);
+      currentTrackRef.current = nextIndex;
 
-      // Load and play next track
       audio.src = playlist[nextIndex];
-      audio.load();
+      if (isPlayingRef.current) {
+        audio.play().catch(console.error);
+      }
+    });
 
-      // Wait for the new track to be ready, then play
-      const playNextWhenReady = () => {
-        if (isPlayingRef.current) {
-          audio.play().catch(console.error);
-        }
-        audio.removeEventListener('canplaythrough', playNextWhenReady);
-      };
-      audio.addEventListener('canplaythrough', playNextWhenReady);
-    };
-
-    audio.addEventListener('canplaythrough', handleCanPlay);
-    audio.addEventListener('error', handleError);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', (e) => {
+      const audioError = (e.target as HTMLAudioElement).error;
+      console.error('Audio error:', audioError);
+      setError(`Audio error: ${audioError?.message || 'Unknown'}`);
+      setIsLoading(false);
+    });
 
     audioRef.current = audio;
-
-    return () => {
-      audio.removeEventListener('canplaythrough', handleCanPlay);
-      audio.removeEventListener('error', handleError);
-      audio.removeEventListener('ended', handleEnded);
-      audio.pause();
-      audio.src = '';
-
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
-    };
+    return audio;
   }, [playlist]);
 
-  // Initialize Web Audio API (must be called after user interaction)
-  const initializeAudioContext = useCallback(() => {
-    if (isInitializedRef.current || !audioRef.current) return;
+  // Initialize Web Audio API for visualization
+  const initializeAudioContext = useCallback((audio: HTMLAudioElement) => {
+    if (isInitializedRef.current) return true;
 
     try {
-      const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioContextClass = window.AudioContext ||
+        (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+
       const audioContext = new AudioContextClass();
       const analyser = audioContext.createAnalyser();
 
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = 0.8;
 
-      const source = audioContext.createMediaElementSource(audioRef.current);
+      const source = audioContext.createMediaElementSource(audio);
       source.connect(analyser);
       analyser.connect(audioContext.destination);
 
@@ -133,54 +129,26 @@ export function useAudioVisualizer(
       sourceRef.current = source;
       dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
       isInitializedRef.current = true;
+      return true;
     } catch (err) {
-      setError(`Failed to initialize audio context: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      console.error('AudioContext error:', err);
+      // Continue without visualization - audio will still play
+      return false;
     }
   }, []);
 
-  // Animation loop for frequency data
-  const updateFrequencyData = useCallback(() => {
-    if (!analyserRef.current || !dataArrayRef.current) {
-      animationRef.current = requestAnimationFrame(updateFrequencyData);
+  // Toggle play/pause - this is the main user interaction handler
+  const toggle = useCallback(async () => {
+    setError(null);
+
+    if (!playlist.length) {
+      setError('No tracks available');
       return;
     }
 
-    analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+    const audio = getOrCreateAudio();
 
-    // Calculate average for each frequency band
-    const newData = frequencyBands.slice(0, barCount).map(band => {
-      let sum = 0;
-      let count = 0;
-      for (let i = band.start; i <= band.end && i < dataArrayRef.current!.length; i++) {
-        sum += dataArrayRef.current![i];
-        count++;
-      }
-      // Normalize to 0-1 range
-      return count > 0 ? sum / count / 255 : 0;
-    });
-
-    setFrequencyData(newData);
-    animationRef.current = requestAnimationFrame(updateFrequencyData);
-  }, [barCount]);
-
-  // Toggle play/pause
-  const toggle = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio || isLoading) return;
-
-    // Check for reduced motion preference
-    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Initialize audio context on first interaction
-    if (!isInitializedRef.current) {
-      initializeAudioContext();
-    }
-
-    // Resume audio context if suspended (browser autoplay policy)
-    if (audioContextRef.current?.state === 'suspended') {
-      audioContextRef.current.resume();
-    }
-
+    // If currently playing, pause
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
@@ -188,60 +156,93 @@ export function useAudioVisualizer(
         cancelAnimationFrame(animationRef.current);
         animationRef.current = null;
       }
-      // Reset bars when paused
-      setFrequencyData(Array(barCount).fill(0.15));
-    } else {
-      audio.play().then(() => {
-        setIsPlaying(true);
-        // Only animate if not reduced motion
-        if (!isReducedMotion) {
-          animationRef.current = requestAnimationFrame(updateFrequencyData);
-        }
-      }).catch(err => {
-        setError(`Playback failed: ${err.message}`);
-      });
+      setFrequencyData(Array(barCount).fill(0.3));
+      return;
     }
-  }, [isPlaying, isLoading, barCount, initializeAudioContext, updateFrequencyData]);
+
+    // Starting playback
+    setIsLoading(true);
+
+    try {
+      // Initialize AudioContext on user gesture (required for iOS)
+      if (!isInitializedRef.current) {
+        initializeAudioContext(audio);
+      }
+
+      // Resume AudioContext if suspended (iOS requirement)
+      if (audioContextRef.current?.state === 'suspended') {
+        await audioContextRef.current.resume();
+      }
+
+      // Play the audio
+      await audio.play();
+
+      setIsPlaying(true);
+      setIsLoading(false);
+
+      // Start visualization if available
+      const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!isReducedMotion && analyserRef.current) {
+        animationRef.current = requestAnimationFrame(updateFrequencyData);
+      }
+    } catch (err) {
+      console.error('Playback error:', err);
+      setIsLoading(false);
+      setError(err instanceof Error ? err.message : 'Playback failed');
+    }
+  }, [playlist, isPlaying, barCount, getOrCreateAudio, initializeAudioContext, updateFrequencyData]);
 
   // Skip to next track
-  const next = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
+  const next = useCallback(async () => {
+    const audio = getOrCreateAudio();
     const nextIndex = (currentTrack + 1) % playlist.length;
+
     setCurrentTrack(nextIndex);
-
+    currentTrackRef.current = nextIndex;
     audio.src = playlist[nextIndex];
-    audio.load();
 
-    const playWhenReady = () => {
-      if (isPlayingRef.current) {
-        audio.play().catch(console.error);
+    if (isPlayingRef.current) {
+      try {
+        await audio.play();
+      } catch (err) {
+        console.error('Next track error:', err);
       }
-      audio.removeEventListener('canplaythrough', playWhenReady);
-    };
-    audio.addEventListener('canplaythrough', playWhenReady);
-  }, [currentTrack, playlist]);
+    }
+  }, [currentTrack, playlist, getOrCreateAudio]);
 
   // Skip to previous track
-  const prev = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
+  const prev = useCallback(async () => {
+    const audio = getOrCreateAudio();
     const prevIndex = (currentTrack - 1 + playlist.length) % playlist.length;
+
     setCurrentTrack(prevIndex);
-
+    currentTrackRef.current = prevIndex;
     audio.src = playlist[prevIndex];
-    audio.load();
 
-    const playWhenReady = () => {
-      if (isPlayingRef.current) {
-        audio.play().catch(console.error);
+    if (isPlayingRef.current) {
+      try {
+        await audio.play();
+      } catch (err) {
+        console.error('Previous track error:', err);
       }
-      audio.removeEventListener('canplaythrough', playWhenReady);
+    }
+  }, [currentTrack, playlist, getOrCreateAudio]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close().catch(() => {});
+      }
     };
-    audio.addEventListener('canplaythrough', playWhenReady);
-  }, [currentTrack, playlist]);
+  }, []);
 
   return {
     isPlaying,

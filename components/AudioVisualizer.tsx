@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import { cn } from '../lib/utils';
 import { useAudioVisualizer } from '../hooks/useAudioVisualizer';
 
@@ -32,22 +33,43 @@ export default function AudioVisualizer({
   // Vibrant orange color
   const barColor = '#ff6b35';
 
+  // Handle button click with proper event handling for iOS
+  const handleToggle = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle();
+  }, [toggle]);
+
+  const handlePrev = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    prev();
+  }, [prev]);
+
+  const handleNext = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    next();
+  }, [next]);
+
   return (
     <div
       className={cn(
-        'flex items-center gap-1 px-2 py-1 rounded-md',
+        'flex items-center gap-1 px-1 py-1 rounded-md',
         'transition-all duration-200',
-        isLoading && 'opacity-50',
         className
       )}
     >
       {/* Previous Button (only show if multiple tracks) */}
       {totalTracks > 1 && (
         <button
-          onClick={prev}
+          type="button"
+          onClick={handlePrev}
+          onTouchEnd={handlePrev}
           disabled={isLoading}
-          className="p-1 hover:bg-white/10 rounded transition-colors cursor-pointer"
+          className="p-2 hover:bg-white/10 active:bg-white/20 rounded transition-colors cursor-pointer touch-manipulation min-w-[36px] min-h-[36px] flex items-center justify-center"
           aria-label="Previous track"
+          style={{ WebkitTapHighlightColor: 'transparent' }}
         >
           <svg
             width="12"
@@ -64,25 +86,43 @@ export default function AudioVisualizer({
 
       {/* Play/Pause Button */}
       <button
-        onClick={toggle}
+        type="button"
+        onClick={handleToggle}
+        onTouchEnd={handleToggle}
         disabled={isLoading}
         className={cn(
-          'flex items-center gap-2 px-2 py-1 rounded cursor-pointer',
+          'flex items-center gap-2 px-3 py-2 rounded cursor-pointer touch-manipulation',
           'hover:bg-white/10 active:bg-white/20',
           'focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6b35]',
           'transition-all duration-200',
-          isLoading && 'cursor-wait'
+          'min-h-[40px]',
+          isLoading && 'cursor-wait opacity-70'
         )}
         aria-label={isPlaying ? 'Pause music' : 'Play music'}
         aria-pressed={isPlaying}
         title={error || (isLoading ? 'Loading...' : isPlaying ? 'Pause' : 'Play')}
+        style={{ WebkitTapHighlightColor: 'transparent' }}
       >
         {/* Play/Pause Icon */}
-        <div className="w-4 h-4 flex items-center justify-center">
-          {isPlaying ? (
+        <div className="w-5 h-5 flex items-center justify-center">
+          {isLoading ? (
+            // Loading spinner
             <svg
-              width="14"
-              height="14"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="animate-spin"
+            >
+              <circle cx="12" cy="12" r="10" stroke={barColor} strokeWidth="3" strokeOpacity="0.3" />
+              <path d="M12 2a10 10 0 0 1 10 10" stroke={barColor} strokeWidth="3" strokeLinecap="round" />
+            </svg>
+          ) : isPlaying ? (
+            // Pause icon
+            <svg
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill={barColor}
               xmlns="http://www.w3.org/2000/svg"
@@ -91,9 +131,10 @@ export default function AudioVisualizer({
               <rect x="14" y="4" width="4" height="16" rx="1" />
             </svg>
           ) : (
+            // Play icon
             <svg
-              width="14"
-              height="14"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill={barColor}
               xmlns="http://www.w3.org/2000/svg"
@@ -129,10 +170,13 @@ export default function AudioVisualizer({
       {/* Next Button (only show if multiple tracks) */}
       {totalTracks > 1 && (
         <button
-          onClick={next}
+          type="button"
+          onClick={handleNext}
+          onTouchEnd={handleNext}
           disabled={isLoading}
-          className="p-1 hover:bg-white/10 rounded transition-colors cursor-pointer"
+          className="p-2 hover:bg-white/10 active:bg-white/20 rounded transition-colors cursor-pointer touch-manipulation min-w-[36px] min-h-[36px] flex items-center justify-center"
           aria-label="Next track"
+          style={{ WebkitTapHighlightColor: 'transparent' }}
         >
           <svg
             width="12"
