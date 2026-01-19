@@ -3,7 +3,7 @@ import { getbackground } from "../lib/getBackground"
 import { useDetectMouseMove } from "../hooks/useDetectMouseMove"
 import { isProduction } from "../lib/env"
 import { Particles } from "./particleBackground"
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 
 export const BackgroundSelector = ({
   children
@@ -11,23 +11,39 @@ export const BackgroundSelector = ({
   children?: React.ReactNode
 }) => {
 
-  const BackGroundElement = useCallback(getbackground(), [])
+  const BackGroundElement = useMemo(() => getbackground(), [])
   const { idle } = useDetectMouseMove()
   const isproduction = isProduction()
 
-  return !idle || !isproduction ? (
-    <BackGroundElement>
-      <div className="relative z-10">{children}</div>
-    </BackGroundElement>
-  ) : (
+  const showIdleBackground = idle && isproduction
+
+  return (
     <div className="relative w-full">
-      <Particles
-        className="absolute inset-0"
-        quantity={200}
-        ease={50}
-        color={'#000000'}
-        refresh
-      />
+      {/* Default background layer - always rendered, visibility controlled by CSS */}
+      <div
+        className="absolute inset-0 transition-opacity duration-500"
+        style={{ opacity: showIdleBackground ? 0 : 1, pointerEvents: showIdleBackground ? 'none' : 'auto' }}
+      >
+        <BackGroundElement>
+          <div className="invisible">{/* Placeholder to maintain BackGroundElement structure */}</div>
+        </BackGroundElement>
+      </div>
+
+      {/* Idle background layer - always rendered, visibility controlled by CSS */}
+      <div
+        className="absolute inset-0 transition-opacity duration-500"
+        style={{ opacity: showIdleBackground ? 1 : 0, pointerEvents: showIdleBackground ? 'auto' : 'none' }}
+      >
+        <Particles
+          className="absolute inset-0"
+          quantity={200}
+          ease={50}
+          color={'#000000'}
+          refresh={false}
+        />
+      </div>
+
+      {/* Content layer - always mounted, never remounts */}
       <div className="relative z-10">
         {children}
       </div>
