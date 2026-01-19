@@ -131,7 +131,7 @@ const Header = () => {
         <br /><br />
         In my free time, I enjoy gaming and binge-watching movies or series (lately, a lot of them!). My current favorite game is <span className="text-orange">Elden Ring</span>.
         <br /><br />
-        What else ..... Life is decent. I have a handful of amazing friends, love traveling, and enjoy reading—currently immersed in <span className="text-orange">Norwegian Wood</span>. Oh, and I love staying alone
+        What else ..... Life is decent. I have a handful of amazing friends, love traveling, and enjoy reading—currently immersed in <span className="text-orange">Martyr</span>. Oh, and I love staying alone
       </p>
     </div>
   );

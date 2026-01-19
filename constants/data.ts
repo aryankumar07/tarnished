@@ -6,7 +6,13 @@ export const ProjectInfo: ProjectInfoProps[] = [
     title: 'Revord',
     Content: 'A cross-platform desktop recording suite (Record, Capture, Annotate) featuring auto-zoom and auto-removing annotations',
     LiveLink: 'https://www.revord.org',
-    GithubLink: 'https://github.com/NetMods/Rev'
+    GithubLink: 'https://github.com/NetMods/Rev-web'
+  },
+  {
+    title: 'Drapes',
+    Content: 'A dependency free UI library for canvas/Webgl made colourfull and interactive backgrounds for your Web-pages',
+    LiveLink: 'https://www.drapes.cc',
+    GithubLink: 'https://github.com/NetMods/Drapes-UI'
   },
   {
     title: 'Note-CLI',
