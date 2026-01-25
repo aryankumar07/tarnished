@@ -1,4 +1,5 @@
 'use client'
+import ChatBox from "./(components)/chatBox"
 import Header from "./(components)/header"
 
 export default function Page() {
@@ -17,6 +18,7 @@ export default function Page() {
         <div className="absolute inset-0 z-10 pointer-events-none" style={overlayStyle} aria-hidden="true" />
         <div className="relative z-20 flex flex-col justify-center items-center bg-black/60">
           <Header />
+          <ChatBox />
         </div>
       </div>
     </div>

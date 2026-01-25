@@ -1,6 +1,6 @@
 'use client'
 import { BackgroundSelector } from "../../components/background_selector"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Header from "../../components/header"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react";
@@ -11,7 +11,9 @@ import Skills from "../../components/skills"
 import Blogs from "../../components/blogs"
 import Loader from "../../components/loader"
 import toast, { Toaster } from "react-hot-toast"
-// import ScrollTrigger from "gsap/ScrollTrigger";
+import { getAnswer } from "../../lib/Gemini-clinet"
+
+
 gsap.registerPlugin(useGSAP);
 let LoadedFirst = false;
 export default function Home() {
@@ -58,6 +60,17 @@ export default function Home() {
         </div>))
     }
   }, [])
+
+
+  // const callAgent = useCallback(async () => {
+  //   const data = await getAnswer()
+  //   console.log(data)
+  // }, [])
+  // useEffect(() => {
+  //   callAgent()
+  // }, [callAgent])
+
+
   if (!isClient) return null;
   const overlayStyle = {
     background: 'linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55))',
