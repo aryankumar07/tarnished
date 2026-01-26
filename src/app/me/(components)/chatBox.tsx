@@ -1,10 +1,11 @@
 import { useState, useRef, useCallback } from "react"
-import { getAnswer } from "../../../../lib/Gemini-clinet"
+import { getAnswer, RateLimitError } from "../../../../lib/Gemini-clinet"
 
 const ChatBox = () => {
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleClick = useCallback(() => {
@@ -19,13 +20,20 @@ const ChatBox = () => {
       setQuestion("")
       setIsLoading(true)
       setAnswer("")
+      setIsError(false)
 
       try {
         const data = await getAnswer(currentQuestion)
+        console.log(data)
         setAnswer(data ?? "")
       } catch (error) {
         console.error(error)
-        setAnswer("Sorry, something went wrong. Please try again.")
+        setIsError(true)
+        if (error instanceof RateLimitError) {
+          setAnswer("Oops! Too many questions. The free tier limit has been reached. Please try again later.")
+        } else {
+          setAnswer("Sorry, something went wrong. Please try again.")
+        }
       } finally {
         setIsLoading(false)
       }
@@ -58,7 +66,11 @@ const ChatBox = () => {
         </button>
       </div>
       {answer && (
-        <div className="ml-4 w-[calc(100%-1rem)] px-4 py-3 border border-white/20 rounded-xl bg-white/5 text-white/80 text-sm">
+        <div className={`ml-4 w-[calc(100%-1rem)] px-4 py-3 rounded-xl text-sm ${
+          isError
+            ? "border border-red-500/30 bg-red-500/10 text-red-300"
+            : "border border-white/20 bg-white/5 text-white/80"
+        }`}>
           {answer}
         </div>
       )}
