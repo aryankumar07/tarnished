@@ -1,6 +1,6 @@
 'use client'
 import { BackgroundSelector } from "../../components/background_selector"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import Header from "../../components/header"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react";
@@ -11,7 +11,6 @@ import Skills from "../../components/skills"
 import Blogs from "../../components/blogs"
 import Loader from "../../components/loader"
 import toast, { Toaster } from "react-hot-toast"
-import { getAnswer } from "../../lib/Gemini-clinet"
 
 
 gsap.registerPlugin(useGSAP);

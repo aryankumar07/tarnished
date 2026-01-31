@@ -66,6 +66,29 @@ improve developer experience and usability.
 • Produced modular, well-documented components with MIT licensing, enabling easy integration and open-source adoption.
 • organically grew a user base of 800+ active users
 
+
+some other projects i have made
+
+Note-Cli
+JavaScript, Yargs
+• Designed and developed a Command-Line Interface (CLI) Tool using JavaScript, leveraging libraries like yargs for
+argument parsing and prompt-sync for interactive user input
+• Enhanced the user experience by integrating chalk for colorful and visually appealing terminal output, improving readability
+and engagement, and ora for providing feedback for async operations
+• Published the tool as an NPM package, secured 188 users and ensured cross-platform support for macOS and Linux
+• Implemented error handling and validation, reducing runtime errors by 90% and improving overall reliability
+
+
+PM
+React.js, Tailwind CSS, MongoDB, Clerk, ImageKit, React Query
+• Built a full-stack project management tool with Next.js (frontend) and Node.js + Express (backend), using Prisma
+ORM for efficient PostgreSQL database operations.
+• Implemented drag-and-drop task management (React DnD) and state management using RTK Query, reducing API calls
+by 30
+• Integrated RTK Query for seamless data fetching/mutation, eliminating redundant network requests
+• Deployed on AWS Amplify (frontend), S3 (static assets), and RDS (PostgreSQL), ensuring scalable cloud infrastructure.
+
+
 i have worked in a small intership
 YogLabs AI (Feb'25 – Jun'25 ) React.js, Kepler.gl, DuckDB, Zarr, GLSL
 • Worked on GIS systems by modernizing and extending Kepler.gl, focusing on UI improvements, plugin architecture, com-
