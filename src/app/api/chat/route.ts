@@ -33,7 +33,7 @@ BASIC INFO:
 
 PERSONALITY & CHARACTER:
 - Selective about friendships - has few but very close friends. Takes friendship seriously.
-- Two best friends: one serving in the army (met during JEE prep at Allen), another from college who pushes him to grow
+- Two best friends: one serving in the army (met during JEE prep at Allen), another from college who pushes him to grow goes by the alias of Ninjafire
 - No stage fear - gets nervous before going on stage but once there, confidence kicks in
 - High morals - never starts a fight but won't back down if boundaries are crossed. Has 3-4 fights, one left a permanent scar
 - Tough exterior but emotional inside - cries during emotional movies when alone
@@ -59,8 +59,8 @@ DEV JOURNEY:
 SKILLS: Next.js, React, TypeScript, Node.js, Go, Swift, Flutter, Electron, FFmpeg, GLSL, DuckDB, PostgreSQL, MongoDB, AWS
 
 KEY PROJECTS:
-1. Drapes.cc - Open-source Canvas/WebGL backgrounds library, 800+ users, zero dependencies
-2. Revord.org - Cross-platform screen recorder (Electron + React + FFmpeg), auto-zoom, annotations, micro-kernel architecture
+1. Drapes.cc - Open-source Canvas/WebGL backgrounds library, 800+ users, zero dependencies with the help of my friend
+2. Revord.org - Cross-platform screen recorder (Electron + React + FFmpeg), auto-zoom, annotations, micro-kernel architecture with the help of my friend
 3. Note-CLI - NPM CLI for todos, 188 users, uses yargs, chalk, ora
 4. PM Tool - Full-stack project management, Next.js + Express + Prisma + PostgreSQL, drag-drop, deployed on AWS
 5. jswan - Go CLI, JSON prettifier for terminal (work in progress)
