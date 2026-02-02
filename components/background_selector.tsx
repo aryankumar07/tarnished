@@ -18,10 +18,10 @@ export const BackgroundSelector = ({
   const showIdleBackground = idle && isproduction
 
   return (
-    <div className="relative w-full">
-      {/* Default background layer - always rendered, visibility controlled by CSS */}
+    <div className="relative min-h-screen w-full">
+      {/* Default background layer - fixed position covers entire viewport */}
       <div
-        className="absolute inset-0 transition-opacity duration-500"
+        className="fixed inset-0 transition-opacity duration-500"
         style={{ opacity: showIdleBackground ? 0 : 1, pointerEvents: showIdleBackground ? 'none' : 'auto' }}
       >
         <BackGroundElement>
@@ -29,13 +29,13 @@ export const BackgroundSelector = ({
         </BackGroundElement>
       </div>
 
-      {/* Idle background layer - always rendered, visibility controlled by CSS */}
+      {/* Idle background layer - fixed position covers entire viewport */}
       <div
-        className="absolute inset-0 transition-opacity duration-500"
+        className="fixed inset-0 transition-opacity duration-500"
         style={{ opacity: showIdleBackground ? 1 : 0, pointerEvents: showIdleBackground ? 'auto' : 'none' }}
       >
         <Particles
-          className="absolute inset-0"
+          className="fixed inset-0"
           quantity={200}
           ease={50}
           color={'#000000'}
