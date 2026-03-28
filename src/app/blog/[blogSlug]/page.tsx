@@ -60,7 +60,7 @@ const Page = async ({ params }: PageProps) => {
   }
 
   const overlayStyle = {
-    background: 'linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55))',
+    background: 'var(--overlay-gradient)',
     WebkitBackdropFilter: 'blur(6px) saturate(120%)',
     backdropFilter: 'blur(6px) saturate(120%)',
     WebkitMaskImage: 'radial-gradient(circle at 50% 20%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0) 100%)',
@@ -69,9 +69,9 @@ const Page = async ({ params }: PageProps) => {
 
   return (
     <div className="flex p-1 w-full">
-      <div className="relative w-full max-w-[900px] mx-auto rounded-2xl overflow-hidden">
+      <div className="relative w-full max-w-[900px] mx-auto rounded-2xl overflow-hidden p-1">
         <div className="absolute inset-0 z-10 pointer-events-none" style={overlayStyle} aria-hidden="true" />
-        <div className="relative z-20 bg-black/60">
+        <div className="relative z-20 rounded-xl" style={{ backgroundColor: 'var(--surface)' }}>
           {data.content}
         </div>
       </div>

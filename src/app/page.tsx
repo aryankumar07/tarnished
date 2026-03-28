@@ -24,7 +24,8 @@ export default function Home() {
       LoadedFirst = true
       toast.custom((t) => (
         <div
-          className={`${t.visible ? "animate-custom-enter" : "animate-custom-leave"} max-w-md w-full shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-50 border border-light-foreground/50 bg-black/90`}
+          className={`${t.visible ? "animate-custom-enter" : "animate-custom-leave"} max-w-md w-full shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-50 border border-light-foreground/50`}
+          style={{ backgroundColor: 'var(--surface-toast)' }}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -72,7 +73,7 @@ export default function Home() {
 
   if (!isClient) return null;
   const overlayStyle = {
-    background: 'linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55))',
+    background: 'var(--overlay-gradient)',
     WebkitBackdropFilter: 'blur(6px) saturate(120%)', // Safari prefix
     backdropFilter: 'blur(6px) saturate(120%)',
     // radial-gradient mask: center is solid (keeps contrast), edges fade to transparent
@@ -92,7 +93,7 @@ export default function Home() {
               style={overlayStyle}
               aria-hidden="true"
             />
-            <div className="relative z-20 flex flex-col gap-8 bg-black/60 p-4 rounded-xl">
+            <div className="relative z-20 flex flex-col gap-8 p-4 rounded-xl" style={{ backgroundColor: 'var(--surface)' }}>
               <Header setIsLoading={setIsLoading} />
               <Contacts />
               <Experiences />

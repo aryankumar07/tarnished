@@ -171,10 +171,10 @@ const ChatBox = () => {
 
   return (
     <div className="mt-4 w-full flex flex-col gap-3 justify-start items-start">
-      <div className="font-extralight text-sm text-white/70">
+      <div className="font-extralight text-sm text-foreground/70">
         <span>Ask Anything About Me, I will Answer with 95% truthness</span>
       </div>
-      <div className="ml-4 w-[calc(100%-1rem)] h-auto px-4 py-3 flex justify-center items-center border border-white/20 rounded-xl bg-white/5">
+      <div className="ml-4 w-[calc(100%-1rem)] h-auto px-4 py-3 flex justify-center items-center border border-foreground/20 rounded-xl bg-foreground/5">
         <div className="flex-1">
           <input
             onChange={(event) => setQuestion(event.target.value)}
@@ -182,13 +182,13 @@ const ChatBox = () => {
             value={question}
             placeholder="Shoot anything..."
             disabled={isLoading}
-            className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none placeholder:text-white/30 placeholder:font-light text-white/90 disabled:opacity-50"
+            className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none placeholder:text-foreground/30 placeholder:font-light text-foreground/90 disabled:opacity-50"
           />
         </div>
         <button
           onClick={handleClick}
           disabled={isLoading || !question.trim()}
-          className="p-2 rounded-lg bg-white/10 text-white/80 cursor-pointer hover:bg-white/15 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 rounded-lg bg-foreground/10 text-foreground/80 cursor-pointer hover:bg-foreground/15 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <svg
@@ -228,13 +228,13 @@ const ChatBox = () => {
           className={`ml-4 w-[calc(100%-1rem)] px-4 py-3 rounded-xl text-sm ${
             isError
               ? "border border-red-500/30 bg-red-500/10 text-red-300"
-              : "border border-white/20 bg-white/5 text-white/80"
+              : "border border-foreground/20 bg-foreground/5 text-foreground/80"
           }`}
         >
           {displayedText}
           {/* Blinking cursor while streaming or animating */}
           {(isStreaming || isAnimating) && !isError && (
-            <span className="inline-block w-[2px] h-[1em] bg-white/80 ml-[2px] align-middle animate-pulse" />
+            <span className="inline-block w-[2px] h-[1em] bg-foreground/80 ml-[2px] align-middle animate-pulse" />
           )}
         </div>
       )}

@@ -6,6 +6,62 @@
   --color-light-foreground: oklch(0.8547 0.0539 61.47);
 }
 
+/* ─── Dark theme (default) ─────────────────────────────── */
+:root {
+  --color-foreground: oklch(0.8434 0.0479 80.75);
+  --color-light-foreground: oklch(0.8547 0.0539 61.47);
+  --bg: #000;
+  --surface: rgba(0, 0, 0, 0.6);
+  --surface-toast: rgba(0, 0, 0, 0.9);
+  --surface-code: rgba(0, 0, 0, 0.75);
+  --overlay-gradient: linear-gradient(180deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.55));
+
+  /* background pattern tokens */
+  --bg-dot-1: #222222;
+  --bg-dot-2: #111111;
+  --bg-line: rgba(255, 255, 255, 0.12);
+  --bg-noise-1: rgba(139, 92, 246, 0.2);
+  --bg-noise-2: rgba(59, 130, 246, 0.18);
+  --bg-noise-3: rgba(236, 72, 153, 0.15);
+  --bg-white-dot: rgba(255, 255, 255, 0.2);
+  --bg-matrix-1: rgba(0, 255, 65, 0.08);
+  --bg-matrix-2: rgba(0, 255, 65, 0.03);
+  --bg-aura: rgba(226, 232, 240, 0.15);
+  --bg-stripped-mid: #111;
+  --bg-stripped-hi: #222;
+}
+
+/* ─── Light theme ──────────────────────────────────────── */
+html.light {
+  --color-foreground: oklch(0.18 0.03 80.75);
+  --color-light-foreground: oklch(0.38 0.04 61.47);
+  --bg: #f5f3ed;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-toast: rgba(245, 243, 237, 0.97);
+  --surface-code: rgba(0, 0, 0, 0.07);
+  --overlay-gradient: linear-gradient(180deg, rgba(240, 238, 232, 0.65), rgba(240, 238, 232, 0.55));
+
+  /* background pattern tokens */
+  --bg-dot-1: #d0cec8;
+  --bg-dot-2: #dcdad4;
+  --bg-line: rgba(0, 0, 0, 0.1);
+  --bg-noise-1: rgba(139, 92, 246, 0.3);
+  --bg-noise-2: rgba(59, 130, 246, 0.25);
+  --bg-noise-3: rgba(236, 72, 153, 0.2);
+  --bg-white-dot: rgba(0, 0, 0, 0.15);
+  --bg-matrix-1: rgba(0, 170, 50, 0.1);
+  --bg-matrix-2: rgba(0, 170, 50, 0.05);
+  --bg-aura: rgba(80, 110, 160, 0.15);
+  --bg-stripped-mid: #e8e6e0;
+  --bg-stripped-hi: #dcd9d3;
+}
+
+/* ─── Sunny theme (placeholder — no visual change yet) ─── */
+html.sunny {
+  /* to be defined */
+}
+
 body {
   @apply text-foreground;
+  background-color: var(--bg);
 }

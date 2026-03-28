@@ -29,8 +29,8 @@ interface RegexExampleProps {
 
 export const RegexExample: React.FC<RegexExampleProps> = ({ pattern, description }) => {
   return (
-    <div className="bg-black p-4 rounded-lg my-4">
-      <code className="bg-black text-foreground px-2 py-1 rounded">{pattern}</code>
+    <div className="p-4 rounded-lg my-4" style={{ backgroundColor: 'var(--surface-code)' }}>
+      <code className="text-foreground px-2 py-1 rounded" style={{ backgroundColor: 'var(--surface-code)' }}>{pattern}</code>
       <p className="mt-2">{description}</p>
     </div>
   );
@@ -50,7 +50,7 @@ export const RegexCheatSheet: React.FC<RegexCheatSheetProps> = ({ items }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
       {items.map((item, index) => (
-        <div key={index} className="bg-slate-700 p-3 rounded-lg">
+        <div key={index} className="p-3 rounded-lg" style={{ backgroundColor: 'var(--surface-code)' }}>
           <code className="font-mono text-blue-700">{item.pattern}</code>
           <p className="text-sm text-foreground">{item.description}</p>
         </div>
@@ -68,7 +68,7 @@ interface CodeBlockProps {
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({ language, code }) => {
   return (
-    <pre className="bg-black text-foreground p-4 rounded-lg my-4 overflow-x-auto">
+    <pre className="text-foreground p-4 rounded-lg my-4 overflow-x-auto" style={{ backgroundColor: 'var(--surface-code)' }}>
       <code className={`language-${language}`}>{code}</code>
     </pre>
   );

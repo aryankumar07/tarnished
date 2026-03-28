@@ -88,8 +88,9 @@ const Avatar = () => {
           </div>
 
           <div
-            className="absolute w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-black border border-light-foreground"
+            className="absolute w-full h-full rounded-full overflow-hidden flex items-center justify-center border border-light-foreground"
             style={{
+              backgroundColor: 'var(--bg)',
               backfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
             }}
