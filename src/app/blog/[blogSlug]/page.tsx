@@ -16,6 +16,7 @@ export async function generateMetadata({ params }: PageProps) {
       source: raw,
       options: {
         parseFrontmatter: true,
+        blockJS: false,
       },
       components: {
         Tester,
@@ -45,6 +46,7 @@ const Page = async ({ params }: PageProps) => {
       source: raw,
       options: {
         parseFrontmatter: true,
+        blockJS: false,
       },
       components: {
         Tester,

@@ -16,7 +16,7 @@ export async function GET() {
 
       const { frontmatter } = await compileMDX<{ title?: string; imgUrl?: string }>({
         source: raw,
-        options: { parseFrontmatter: true },
+        options: { parseFrontmatter: true, blockJS: false },
       });
 
       const slug = fileName.replace(/\.(mdx?|MDX?)$/, '');
