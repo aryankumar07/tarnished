@@ -56,12 +56,57 @@ html.light {
   --bg-stripped-hi: #dcd9d3;
 }
 
-/* ─── Sunny theme (placeholder — no visual change yet) ─── */
+/* ─── Sunny theme ─────────────────────────────────────── */
 html.sunny {
-  /* to be defined */
+  --color-foreground: oklch(0.22 0.02 60);
+  --color-light-foreground: oklch(0.40 0.03 55);
+  --bg: #e8e4e0;
+  --surface: rgba(255, 255, 255, 0.65);
+  --surface-toast: rgba(245, 242, 238, 0.97);
+  --surface-code: rgba(0, 0, 0, 0.06);
+  --overlay-gradient: linear-gradient(180deg, rgba(232, 228, 224, 0.65), rgba(232, 228, 224, 0.55));
+
+  /* background pattern tokens (not used in sunny, but defined for safety) */
+  --bg-dot-1: #d5d1cc;
+  --bg-dot-2: #dedbd6;
+  --bg-line: rgba(0, 0, 0, 0.08);
+  --bg-noise-1: rgba(139, 92, 246, 0.15);
+  --bg-noise-2: rgba(59, 130, 246, 0.12);
+  --bg-noise-3: rgba(236, 72, 153, 0.1);
+  --bg-white-dot: rgba(0, 0, 0, 0.1);
+  --bg-matrix-1: rgba(0, 170, 50, 0.06);
+  --bg-matrix-2: rgba(0, 170, 50, 0.03);
+  --bg-aura: rgba(80, 110, 160, 0.1);
+  --bg-stripped-mid: #e0dcd7;
+  --bg-stripped-hi: #d5d1cc;
 }
 
 body {
   @apply text-foreground;
   background-color: var(--bg);
+}
+
+/* ─── Theme transition ripple animation ───────────────── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: ripple-expand 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes ripple-expand {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    clip-path: circle(150% at 50% 50%);
+  }
 }
