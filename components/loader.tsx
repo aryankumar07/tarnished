@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-
-const IMAGE_URL = '/sprite.png';
+import { useTheme } from 'next-themes';
 
 const CANVAS_WIDTH = 180;
 const CANVAS_HEIGHT = 270;
@@ -13,6 +12,9 @@ const FPS = 7; // frames per second of the sprite animation
 const Loader: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
+  const { resolvedTheme } = useTheme();
+
+  const imageUrl = resolvedTheme === 'dark' ? '/sprite.png' : '/sprite-b.png';
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -20,8 +22,8 @@ const Loader: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // scale for devicePixelRatio so it stays crisp
     const dpr = Math.max(1, window.devicePixelRatio || 1);
+    // scale for devicePixelRatio so it stays crisp
     canvas.width = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
     canvas.style.width = `${CANVAS_WIDTH}px`;
@@ -29,7 +31,7 @@ const Loader: React.FC = () => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // scale drawing operations
 
     const image = new Image();
-    image.src = IMAGE_URL;
+    image.src = imageUrl;
     image.onload = () => {
       const totalFrames = Math.max(1, Math.floor(image.width / SPRITE_WIDTH));
       let currentFrame = 0;
@@ -74,7 +76,7 @@ const Loader: React.FC = () => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [imageUrl]);
 
   return (
     <div
