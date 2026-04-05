@@ -51,13 +51,13 @@ export default function Home() {
           </div>
           <div className="flex border-l border-light-foreground/50">
             <button
-              onClick={() => toast.dismiss(t.id)}
+              onClick={() => toast.remove(t.id)}
               className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-orange hover:text-orange/50 focus:outline-none focus:ring-2 focus:ring-foreground"
             >
               Close
             </button>
           </div>
-        </div>))
+        </div>), { duration: Infinity })
     }
   }, [])
 
